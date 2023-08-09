@@ -1,6 +1,10 @@
 Changelog for Login
 ===================
 
+Login 1.9.12
+------------------------------------
+- Set primary_group if it is not set when register a new user
+
 Login 1.9.11
 ------------------------------------
 - Fix ensurePasswordStrength [#181]

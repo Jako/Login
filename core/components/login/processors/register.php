@@ -232,6 +232,9 @@ class LoginRegisterProcessor extends LoginProcessor {
                     $member->set('role',1);
                 }
                 $rank = (isset($userGroupMeta[2])) ? $userGroupMeta[2] : 0;
+                if ($rank === 0 && !$this->user->get('primary_group')) {
+                    $this->user->set('primary_group', $userGroup->get('id'));
+                }
                 $member->set('rank', $rank);
                 $this->user->addMany($member,'UserGroupMembers');
                 $added[] = $userGroup->get('name');
