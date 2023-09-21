@@ -1,6 +1,10 @@
 Changelog for Login
 ===================
 
+Login 1.9.13
+------------------------------------
+- Fix not sending emails in MODX 3.x, when the modPHPMailer is initialized before with $modx->services instead of $modx->getService
+
 Login 1.9.12
 ------------------------------------
 - Set primary_group if it is not set when register a new user

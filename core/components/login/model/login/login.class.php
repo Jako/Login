@@ -159,27 +159,27 @@ class Login {
         }
 
 
-        $this->modx->getService('mail', 'mail.modPHPMailer');
-        $this->modx->mail->set(modMail::MAIL_BODY, $msg);
-        $this->modx->mail->set(modMail::MAIL_FROM, $this->modx->getOption('emailFrom', $properties, $this->modx->getOption('emailsender'), true));
-        $this->modx->mail->set(modMail::MAIL_FROM_NAME, $this->modx->getOption('emailFromName', $properties, $this->modx->getOption('site_name'), true));
-        $this->modx->mail->set(modMail::MAIL_SENDER, $this->modx->getOption('emailSender', $properties, $this->modx->getOption('emailsender'), true));
-        $this->modx->mail->set(modMail::MAIL_SUBJECT, $subject);
+        $mail = $this->modx->getService('mail', 'mail.modPHPMailer');
+        $mail->set(modMail::MAIL_BODY, $msg);
+        $mail->set(modMail::MAIL_FROM, $this->modx->getOption('emailFrom', $properties, $this->modx->getOption('emailsender'), true));
+        $mail->set(modMail::MAIL_FROM_NAME, $this->modx->getOption('emailFromName', $properties, $this->modx->getOption('site_name'), true));
+        $mail->set(modMail::MAIL_SENDER, $this->modx->getOption('emailSender', $properties, $this->modx->getOption('emailsender'), true));
+        $mail->set(modMail::MAIL_SUBJECT, $subject);
         if (!empty($msgAlt)) {
-            $this->modx->mail->set(modMail::MAIL_BODY_TEXT, $msgAlt);
+            $mail->set(modMail::MAIL_BODY_TEXT, $msgAlt);
         }
-        $this->modx->mail->address('to', $email, $name);
+        $mail->address('to', $email, $name);
         $replyTo = $this->modx->getOption('emailReplyTo', $properties);
         if (!empty($replyTo)) {
-            $this->modx->mail->address('reply-to', $replyTo);
+            $mail->address('reply-to', $replyTo);
         }
-        $this->modx->mail->setHTML(true);
+        $mail->setHTML(true);
         if ($this->inTestMode) return true;
-        $sent = $this->modx->mail->send();
+        $sent = $mail->send();
         if (!$sent) {
-            $this->modx->log(modX::LOG_LEVEL_ERROR, '[Login] '.$this->modx->lexicon('register.email_not_sent').' '.print_r($this->modx->mail->mailer->ErrorInfo, true));
+            $this->modx->log(modX::LOG_LEVEL_ERROR, '[Login] '.$this->modx->lexicon('register.email_not_sent').' '.print_r($mail->mailer->ErrorInfo, true));
         }
-        $this->modx->mail->reset();
+        $mail->reset();
 
         return $sent;
     }
@@ -270,7 +270,7 @@ class Login {
 
     /**
      * Decode a serialized, encoded param string
-     * 
+     *
      * @param string $params
      * @return array
      */
@@ -285,10 +285,10 @@ class Login {
      * @param string $str
      * @return string
      */
-    public function base64url_encode($str) { 
-        return rtrim(strtr(base64_encode($str), '+/', '-_'), '='); 
-    } 
-    
+    public function base64url_encode($str) {
+        return rtrim(strtr(base64_encode($str), '+/', '-_'), '=');
+    }
+
     /**
      * Decodes an URL safe encoded string
      *
@@ -296,8 +296,8 @@ class Login {
      * @param string $str
      * @return string
      */
-    public function base64url_decode($str) { 
-        return base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT)); 
+    public function base64url_decode($str) {
+        return base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
     }
 
     /**
