@@ -261,9 +261,9 @@ class Login {
      */
     public function encodeParams($params) {
         if (is_array($params)) {
-            $params = serialize($params);
+            $params = json_encode($params);
         } else {
-            $params = serialize(array($params));
+            $params = json_encode(array($params));
         }
         return strtr(base64_encode($params), '+/=', '-_,');
     }
@@ -275,7 +275,7 @@ class Login {
      * @return array
      */
     public function decodeParams($params) {
-        return unserialize(base64_decode(strtr($params, '-_,', '+/=')));
+        return json_decode(base64_decode(strtr($params, '-_,', '+/=')), true);
     }
 
     /**
