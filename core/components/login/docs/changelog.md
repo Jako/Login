@@ -1,6 +1,10 @@
 Changelog for Login
 ===================
 
+Login 1.9.14
+------------------------------------
+- Fix reported vulnerability [#185]
+
 Login 1.9.13
 ------------------------------------
 - Fix not sending emails in MODX 3.x, when the modPHPMailer is initialized before with $modx->services instead of $modx->getService
